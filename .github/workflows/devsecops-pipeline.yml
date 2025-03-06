@@ -1,4 +1,4 @@
-name: DevSecOps Pipeline for Flask Application (Gunicorn)
+name: DevSecOps Pipeline for Flask Application (Gunicorn) 
 
 on: [push]
 
