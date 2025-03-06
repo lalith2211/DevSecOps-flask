@@ -20,5 +20,28 @@ jobs:
         pip install flake8 bandit safety
   
     - name: code linting
+      run: flake8 app.py
+
+    # Bandit scans Python code for common security issues like insecure use of eval().
+    - name: Bandit Scan
+      run: bandit -r . -f html -o bandit-report.html 
+
+    # using Safety - for checking the vulnerabilites in the packages
+    - name: safety package auditing
+      run: safety check --file=requirements.txt --json > safety-report.json  
+
+    - name: Gitleaks
+      uses: gitleaks/gitleaks-action@v2.3.4
+
+
+    - name: Docker Login
+      uses: docker/login-action@v3.3.0
+      with:
+        username: sailalithdevops
+        password: ${{ secrets.DOCKER_PASSWORD }}
+
+
+    - name: Docker push
       run: |
-        flake8 app.py
+        docker build -t sailalithv/flask-devsecops-app:${{ github.run_id }} .
+        docker push sailalithv/flask-devsecops-app:${{ github.run_id }}
