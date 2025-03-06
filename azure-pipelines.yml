@@ -10,11 +10,34 @@ variables:
   image_name: "flask-devsecops-app"
 
 stages:
-- stage: Setup Python
-  displayName: "Python Setup"
-  tasks:  
-  - task: UsePythonVersion@0
-    inputs:
-      versionSpec: '3.10'
-      addToPath: true
-      architecture: 'x64'
+- stage: Build
+  displayName: "Build Docker Image"
+  jobs:
+  - job: Build
+    steps:
+    - task: UsePythonVersion@0
+      inputs:
+        versionSpec: '3.10'
+        addToPath: true
+        architecture: 'x64'
+
+    - script: |
+        pip install -r requirements.txt
+        pip install safety bandit flake8 
+      displayName: "Reqs installation"
+    
+    - script: flake8 app.py
+      displayName: "code linting"
+
+    - script: safety check --file=requirements.txt
+      displayName: "Safety - package audit"
+
+    - script: bandit -r app.py
+      displayName: "Bandit - Run security Scan"
+
+    - task: Docker@2
+      inputs:
+        containerRegistry: 'dockerhub-svc-conn'
+        repository: 'flask-devsecops-app'
+        command: 'buildAndPush'
+        Dockerfile: '**/Dockerfile'
