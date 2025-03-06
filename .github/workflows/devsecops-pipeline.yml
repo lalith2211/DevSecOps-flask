@@ -33,15 +33,14 @@ jobs:
     # - name: Gitleaks
     #   uses: gitleaks/gitleaks-action@v2.3.4
 
-
     - name: Docker Login
       uses: docker/login-action@v3.3.0
       with:
         username: sailalithdevops
         password: ${{ secrets.DOCKER_PASSWORD }}
-
-
-    - name: Docker push
-      run: |
-        docker build -t sailalithv/flask-devsecops-app:${{ github.run_id }} .
-        docker push sailalithv/flask-devsecops-app:${{ github.run_id }}
+        
+    - name: Docker Build and push
+      uses: docker/build-push-action@v6
+      with:
+        push: true
+        tags: sailalithv/flask-devsecops-app:${{ github.run_id }}
