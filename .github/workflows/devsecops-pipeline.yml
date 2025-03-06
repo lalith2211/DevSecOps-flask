@@ -38,9 +38,14 @@ jobs:
       with:
         username: sailalithdevops
         password: ${{ secrets.DOCKER_PASSWORD }}
+
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v3
         
     - name: Docker Build and push
       uses: docker/build-push-action@v6
       with:
         push: true
         tags: sailalithv/flask-devsecops-app:${{ github.run_id }}
+        provenance: true
+        sbom: true
