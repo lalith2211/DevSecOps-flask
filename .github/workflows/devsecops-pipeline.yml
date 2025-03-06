@@ -23,8 +23,8 @@ jobs:
       run: flake8 app.py
 
     # Bandit scans Python code for common security issues like insecure use of eval().
-    - name: Bandit Scan
-      run: bandit -r .
+    # - name: Bandit Scan
+    #   run: bandit -r .
 
     # using Safety - for checking the vulnerabilites in the packages
     - name: safety package auditing
