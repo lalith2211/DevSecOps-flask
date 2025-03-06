@@ -28,7 +28,7 @@ jobs:
 
     # using Safety - for checking the vulnerabilites in the packages
     - name: safety package auditing
-      run: safety check --file=requirements.txt --json > safety-report.json  
+      run: safety check --file=requirements.txt 
 
     # - name: Gitleaks
     #   uses: gitleaks/gitleaks-action@v2.3.4
