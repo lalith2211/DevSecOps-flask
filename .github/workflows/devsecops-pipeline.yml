@@ -13,8 +13,6 @@ jobs:
 
     - name: Checkout
       uses: actions/checkout@v4.2.2
-      with:
-        repository: main
 
     - name: install requirements
       run: |
