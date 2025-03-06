@@ -1,0 +1,20 @@
+trigger:
+- main
+
+pool:
+  vmImage: Ubuntu-latest
+
+variables:
+  tag: '$(Build.BuildId)'
+  acrname: "sailalithv"
+  image_name: "flask-devsecops-app"
+
+stages:
+- stage: Setup Python
+  displayName: "Python Setup"
+  tasks:  
+  - task: UsePythonVersion@0
+    inputs:
+      versionSpec: '3.10'
+      addToPath: true
+      architecture: 'x64'
